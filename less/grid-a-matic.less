@@ -1,0 +1,259 @@
+
+
+/*  VARIABLES */
+
+@pica: 12;
+@line: (@pica * 2);
+@font-size: (@pica * 4 / 3);
+@em: (@font-size * 1rem);
+
+@sub-grid: (@line * 1px);
+@multiplier: 3;
+@main-grid: (@sub-grid * @multiplier);
+@min-columns: 3;
+@max-columns: 17;
+
+@grid-image: '/images/grid.png';
+@block-background-color: #eeeeee;
+
+/*  TYPOGRAPHY */
+
+/*  Base Font Styles */
+
+html, body {
+	font-size: (@font-size / @em); 
+	line-height: (@line / @em);
+}
+
+.small () {
+  .normal;
+	font-size: (@font-size * 7 / 8 / @em);
+}
+
+.normal () {
+	margin: 0 0 (@line / @em) 0;
+	font-size: (@font-size / @em);
+	line-height: (@line / @em);
+}
+
+.large () {
+	margin: (@line * 2 / @em) 0 0 0;
+	font-size: (@font-size * 4 / 3 / @em);
+	line-height: (@line / @em);
+}
+
+.larger () {
+  .large;
+	font-size: (@font-size * 5 / 3 / @em);
+}
+
+.huge () {
+	margin: (@line * 13 / 8 / @em) 0 (@line * 5 / 8 / @em);
+	font-size: (@font-size * 8 / 3 / @em);
+	line-height: (@line * 2 / @em);
+}
+
+.massive () {
+	margin: 0 0 (@line * 10 / 8 / @em) 0;
+	font-size: (@font-size * 11 / 3 / @em);
+	line-height: (@line * 3 / @em);
+}
+
+.gigantic () {
+	margin: (@line / 8 / @em) 0 (@line * 9 / 8 / @em) 0;
+	font-size: (@font-size * 18 / 3 / @em);
+	line-height: (@line * 4 / @em);
+}
+
+
+/*  Tag Styles */
+
+h4, p, ul, ol {
+  .normal;
+}
+
+p.small {
+  .small;
+}
+
+h3 {
+  .large;
+}
+
+h2 {
+  .larger;
+}
+
+h1 {
+	.huge;
+}
+
+ul, ol {
+  padding-left: (@line * 3 / 4 / @em);
+}
+
+
+/*  POSITIONING */
+
+html, body {
+  position: relative;
+  margin: 0;
+  padding: 0;
+}
+
+
+/*  Required Mixins */
+
+.box-sizing(@sizing) {
+  -webkit-box-sizing: @sizing;
+  -moz-box-sizing: @sizing;
+  box-sizing: @sizing;
+}
+
+/*  The micro clearfix
+    http://nicolasgallagher.com/micro-clearfix-hack/ */
+    
+.clearfix() {
+	*zoom:1;
+	
+	&:before,
+	&:after {
+	    content:"";
+	    display:table;
+	}
+	&:after {
+	    clear:both;
+	}
+}
+
+
+/*  Basic Elements */
+
+.grid {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: transparent url(@grid-image) repeat 50% 0;
+  z-index: -1;
+}
+
+.container {
+  display: block;
+  margin: 0 auto;
+  padding: @main-grid 0;
+  width: (@main-grid * (@min-columns + 1));
+  min-height: @sub-grid;
+  .box-sizing(border-box);
+  .clearfix;
+  
+  & + .container {
+    padding-top: 0;
+  }
+}
+
+.block {
+  float: left;
+  display: block;
+  margin: 0 (@main-grid / 2) @sub-grid (@main-grid / 2);
+  .box-sizing(border-box);
+
+  .title {
+    margin-top: (30/@em);
+  }
+
+  &.exact {
+    overflow: hidden;
+  }
+
+  & > *:last-child {
+    margin-bottom: 0;
+  }
+
+  &.with-background {
+    padding: (@sub-grid / 2) @sub-grid 0 @sub-grid;
+    background-color: @block-background-color;
+
+    .title {
+      margin-top: (18/@em);
+    }
+
+    & > *:last-child {
+      margin-bottom: (12/@em);
+    }
+  }
+
+}
+
+
+/*  Grid Generation */
+
+/*  max */
+
+.max-grid-loop (@index; @grid: main-grid; @max: @max-columns) when (@index < @max) {
+  .max-@{grid}-@{index},
+  .max-@{grid}-@{index}-left {
+    max-width: (@@grid * @index);
+  }
+  .max-@{grid}-@{index}-right {
+    float: right;
+    max-width: (@@grid * @index);
+  }
+  .max-grid-loop((@index + 1); @grid; @max);
+}
+.max-grid-loop (@index; @grid: main-grid; @max: @max-columns) when (@index >= @max) {}
+
+.max-grid-loop(1);
+.max-grid-loop(1, sub-grid, @max-columns * @multiplier);
+
+
+/*  push-pull */
+
+.push-pull-loop (@index; @grid: main-grid; @max: (@max-columns - @min-columns)) when (@index <= @max) {
+  .push-@{grid}-@{index} {
+    margin-left: (@@grid * @index) + (@main-grid / 2);
+  }
+  .pull-@{grid}-@{index} {
+    margin-right: (@@grid * @index) + (@main-grid / 2);
+  }
+  .push-pull-loop((@index + 1); @grid; @max);
+}
+.push-pull-loop (@index; @grid: main-grid; @max: (@max-columns - @min-columns)) when (@index > @max) {}
+
+.push-pull-loop(1);
+.push-pull-loop(1, sub-grid, @max-columns * @multiplier);
+
+
+/*  responsive adaptations */
+
+.nullify-push-pull-loop(@index; @grid: main-grid; @max: (@max-columns - @min-columns)) when (@index <= 0) {
+  .nullify-push-pull-loop((@index + 1); @grid; @max);
+}
+.nullify-push-pull-loop(@index; @grid: main-grid; @max: (@max-columns - @min-columns)) when (@index <= @max) {
+  .push-@{grid}-@{index} {
+    margin-left: (@main-grid / 2);
+  }
+  .pull-@{grid}-@{index} {
+    margin-right: (@main-grid / 2);
+  }
+  .nullify-push-pull-loop((@index + 1); @grid; @max);
+}
+.nullify-push-pull-loop(@index; @grid: main-grid; @max: (@max-columns - @min-columns)) when (@index > @max) {}
+
+.container-loop (@index) when (@index <= @max-columns) {
+  @media (min-width: (@main-grid * (@index + 1))) {
+    .container {
+      width: (@main-grid * (@index + 1));
+    }
+    .block {
+      max-width: (@main-grid * @index);
+    }
+  }
+  @media (max-width: (@main-grid * (@index + 3) - 1)) {
+    .nullify-push-pull-loop(@index - @min-columns);
+    .nullify-push-pull-loop(@index - @min-columns, sub-grid, ((@max-columns - @min-columns) * @multiplier));
+  }
+  .container-loop((@index + 2));
+}
+.container-loop (@index) when (@index > @max-columns) {}
+.container-loop(@min-columns);
+
