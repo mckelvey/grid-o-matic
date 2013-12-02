@@ -49,8 +49,7 @@ body {
   padding: 0;
 }
 /*  Required Mixins */
-/*  The micro clearfix
-    http://nicolasgallagher.com/micro-clearfix-hack/ */
+/*  The micro clearfix: http://nicolasgallagher.com/micro-clearfix-hack/ */
 /*  Basic Elements */
 .grid {
   position: absolute;

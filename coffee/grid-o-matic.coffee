@@ -1,5 +1,5 @@
 
-class GridAMatic
+class GridOMatic
 
   mainGrid: 72
   subGrid: 24
@@ -51,4 +51,4 @@ class GridAMatic
           $element.height($element.outerWidth() * 1.618)
 
 $ ->
-  window.gridAMatic = new GridAMatic()
+  window.gridOMatic = new GridOMatic()
