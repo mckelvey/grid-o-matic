@@ -1,4 +1,6 @@
 
+'use strict'
+
 class GridOMatic
 
   mainGrid: 72
@@ -7,13 +9,11 @@ class GridOMatic
 
   constructor: () ->
     self = @
-    $('.container, .align-main, .align-sub, .golden').each () ->
+    $('.container, [data-align], [data-ratio]').each () ->
       self.$elements.push($(this))
     $(window).on 'resize', { self: self }, _.debounce(self.resize, 100)
     @resize()
     @
-
-  list: (selector, list) ->
 
   removeStyles: ($el, styles) ->
     re = new RegExp "(#{styles.join('|')}):[^;]+;", "gi"
@@ -21,34 +21,42 @@ class GridOMatic
       style.replace(re) if style
       )
 
-  applyGrid: ($el, grid) ->
-    @removeStyles($el, ['margin-top', 'height'])
+  setTop: ($el, grid, method) ->
     offsetDifference = ($el.offset().top % grid)
     if offsetDifference isnt 0
-      marginTop = parseFloat($el.css('marginTop').replace(/[^-\d]/g, ''))
-      newMarginTop = if marginTop > grid then marginTop - offsetDifference else marginTop + (grid - offsetDifference)
-      $el.css('marginTop', "#{newMarginTop}px")
+      top = parseFloat($el.css("#{method}Top").replace(/[^-\d]/g, ''))
+      newTop = if top > grid then top - offsetDifference else top + (grid - offsetDifference)
+      $el.css("#{method}Top", "#{newTop}px")
+      
+  snapToGrid: ($el, grid, method='margin') ->
+    @removeStyles($el, ["#{method}-top", 'height'])
+    @setTop($el, grid, method)
     heightDifference = ($el.outerHeight() % grid)
     $el.height($el.height() + (grid - heightDifference)) if heightDifference isnt 0
 
   resize: (e) ->
     self = if e? and e.data? then e.data.self else @
     for $element in self.$elements
-      if $element.hasClass('container')
+      alignment = $element.attr('data-align')
+      ratio = $element.attr('data-ratio')
+      if $element.hasClass('container') and alignment isnt ''
         self.removeStyles($element, ['padding-top'])
-        offsetDifference = ($element.offset().top % self.mainGrid)
-        if offsetDifference isnt 0
-          paddingTop = parseFloat($element.css('paddingTop').replace(/[^-\d]/g, ''))
-          newPaddingTop = if paddingTop > self.mainGrid then paddingTop - offsetDifference else paddingTop + (self.mainGrid - offsetDifference)
-          $element.css('paddingTop', "#{newPaddingTop}px")
+        self.setTop($element, (if alignment is 'sub' then self.subGrid else self.mainGrid), 'padding')
       else
-        if $element.hasClass('align-main')
-          self.applyGrid($element, self.mainGrid)
-        else if $element.hasClass('align-sub')
-          self.applyGrid($element, self.subGrid)
-        if $element.hasClass('golden')
-          self.removeStyles($element, ['height'])
-          $element.height($element.outerWidth() * 1.618)
+        if alignment is 'main'
+          self.snapToGrid($element, self.mainGrid)
+        else if alignment is 'sub'
+          self.snapToGrid($element, self.subGrid)
+        if ratio isnt undefined and ratio isnt ''
+          $element.addClass('contained') if $element.hasClass('not-contained') isnt true
+          factor = switch ratio
+            when 'golden', 'golden-vertical', 'golden vertical' then 1.618
+            when 'golden-horizontal', 'golden horizontal' then 0.618
+            when 'square' then 1
+            else null
+          if factor?
+            self.removeStyles($element, ['height'])
+            $element.height($element.outerWidth() * factor)
 
 $ ->
   window.gridOMatic = new GridOMatic()

@@ -91,8 +91,11 @@ body {
 .block .title {
   margin-top: 1.875rem;
 }
-.block.exact {
+.block.contained {
   overflow: hidden;
+}
+.block.not-contained {
+  overflow: visible;
 }
 .block > *:last-child {
   margin-bottom: 0;
@@ -1033,9 +1036,6 @@ body {
   .container {
     width: 288px;
   }
-  .block {
-    max-width: 216px;
-  }
 }
 @media (max-width: 431px) {
   .push-main-grid-1 {
@@ -1727,9 +1727,6 @@ body {
   .container {
     width: 432px;
   }
-  .block {
-    max-width: 360px;
-  }
 }
 @media (max-width: 575px) {
   .push-main-grid-2 {
@@ -2061,9 +2058,6 @@ body {
   .container {
     width: 576px;
   }
-  .block {
-    max-width: 504px;
-  }
 }
 @media (max-width: 719px) {
   .push-main-grid-4 {
@@ -2371,9 +2365,6 @@ body {
   .container {
     width: 720px;
   }
-  .block {
-    max-width: 648px;
-  }
 }
 @media (max-width: 863px) {
   .push-main-grid-6 {
@@ -2657,9 +2648,6 @@ body {
   .container {
     width: 864px;
   }
-  .block {
-    max-width: 792px;
-  }
 }
 @media (max-width: 1007px) {
   .push-main-grid-8 {
@@ -2919,9 +2907,6 @@ body {
   .container {
     width: 1008px;
   }
-  .block {
-    max-width: 936px;
-  }
 }
 @media (max-width: 1151px) {
   .push-main-grid-10 {
@@ -3157,9 +3142,6 @@ body {
   .container {
     width: 1152px;
   }
-  .block {
-    max-width: 1080px;
-  }
 }
 @media (max-width: 1295px) {
   .push-main-grid-12 {
@@ -3370,9 +3352,6 @@ body {
 @media (min-width: 1296px) {
   .container {
     width: 1296px;
-  }
-  .block {
-    max-width: 1224px;
   }
 }
 @media (max-width: 1439px) {

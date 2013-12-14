@@ -161,8 +161,12 @@ html, body {
     margin-top: (30/@em);
   }
 
-  &.exact {
+  &.contained {
     overflow: hidden;
+  }
+
+  &.not-contained {
+    overflow: visible;
   }
 
   & > *:last-child {
@@ -243,9 +247,6 @@ html, body {
   @media (min-width: (@main-grid * (@index + 1))) {
     .container {
       width: (@main-grid * (@index + 1));
-    }
-    .block {
-      max-width: (@main-grid * @index);
     }
   }
   @media (max-width: (@main-grid * (@index + 3) - 1)) {
