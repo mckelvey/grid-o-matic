@@ -1,8 +1,18 @@
+lib-cov
+*.seed
+*.log
+*.csv
+*.dat
+*.out
+*.pid
+*.gz
 
-# OS Files #
-############
+pids
+logs
+results
+
+npm-debug.log
+node_modules
+third-party
+
 .DS_Store
-
-# Watch Scripts #
-#################
-less-watch-compiler.js
