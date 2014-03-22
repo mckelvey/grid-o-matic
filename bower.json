@@ -1,0 +1,31 @@
+{
+  "name": "grid-o-matic",
+  "version": "0.0.1",
+  "homepage": "https://github.com/mckelvey/grid-o-matic",
+  "authors": [
+    "David W. McKelvey <david@mckelveycreative.com>"
+  ],
+  "description": "Yet another less CSS framework, but one based on picas and odd numbers of columns.",
+  "main": [
+    "dist/grid-o-matic.min.css",
+    "dist/grid-o-matic.min.js",
+  ],
+  "dependencies": {
+    "jquery": "http://code.jquery.com/jquery-1.11.0.min.js"
+  },
+  "keywords": [
+    "css",
+    "framework",
+    "less",
+    "odd",
+    "picas"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

@@ -1,0 +1,53 @@
+block variables
+- var siteTitle = "grid-o-matic"
+- if (typeof title !== 'undefined') { title += ' - ' + siteTitle; } else { var title = siteTitle; }
+- var description = description || ""
+- var keywords = keywords || ""
+doctype html
+html(lang="en")
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge,chrome=1')
+    meta(name='viewport', content='width=device-width')
+    title #{title}
+    meta(name='description', content=description)
+    meta(name='keywords', content=keywords)
+    meta(name='author', content='David W. McKelvey')
+    link(rel='stylesheet', type='text/css', href='/grid-o-matic.min.css')
+    link(rel='shortcut icon', href='/favicon.ico')
+    block head
+  body
+    header.container
+      div.brand
+        a(href="/", title="Title [home]")
+          img(src="/images/logo.png", alt="Title [logo]")
+    block content
+    footer.container
+      div.vcard
+        p
+          a(class="fn org url", href="http://www.domain.tld") Title
+        address.adr
+          span(class="street-address") Street Address
+          span(class="locality") City
+          span(class="region") State
+          span(class="postal-code") Zip
+          abbr(class="country-name", title="United States of America") USA
+        p(class="email")
+          a(class="email", href="mailto:info@domain.tld") info@domain.tld
+        p(class="tel")
+          a(class="tel", href="tel:###-###-####") ###-###-####
+    script(src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js")
+    script.
+      (window.jQuery)||document.write('<script src="/scripts/third-party/jquery.min.js"><\/script>');
+    script(src="/grid-o-matic.min.js")
+    block scripts
+    if typeof locals.env === 'string' && locals.env === 'dev' && typeof locals.liveReloadPort === 'number'
+      script(src="//localhost:#{locals.liveReloadPort}/livereload.js?snipver=1")
+    <!--[if lt IE 10]>
+    p.chromeframe Your browser is 
+      em ancient!
+      a(href="http://browsehappy.com/") Upgrade to a different browser
+      | or 
+      a(href="http://www.google.com/chromeframe/?redirect=true") install Google Chrome Frame
+      | to experience this site.
+    <![endif]-->
