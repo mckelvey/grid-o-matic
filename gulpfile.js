@@ -1,4 +1,6 @@
 
+var package = require('./package.json');
+
 var http = require('http');
 var path = require('path');
 var gulp = require('gulp');
@@ -88,6 +90,18 @@ gulp.task('copy-to-dist', function() {
     .pipe(gulp.dest('dist'));
 });
 
+gulp.task('third-party-build', ['clean-third-party-build'], function() {
+  gulp.src('third-party/**/dist/*.min.js')
+    .pipe(flatten())
+    .pipe(gulp.dest('build/scripts'));
+});
+
+gulp.task('third-party-dist', ['clean-third-party-dist'], function() {
+  gulp.src('third-party/**/dist/*.min.js')
+    .pipe(flatten())
+    .pipe(gulp.dest('dist/scripts'));
+});
+
 gulp.task('scripts-build', ['clean-scripts-build'], function() {
   gulp.src(['client/**/*.coffee'])
     .pipe(coffeelint())
@@ -96,9 +110,9 @@ gulp.task('scripts-build', ['clean-scripts-build'], function() {
     .pipe(jshint())
     .pipe(jshint.reporter('default'))
     .pipe(jshint.reporter('fail'))
-    .pipe(concat('main.js'))
+    .pipe(concat(package.name + '.js'))
     .pipe(gulp.dest('build/scripts'))
-    .pipe(rename('main.min.js'))
+    .pipe(rename(package.name + '.min.js'))
     .pipe(uglify())
     .pipe(gulp.dest('build/scripts'))
     .pipe(livereload(tinylr));
@@ -112,7 +126,7 @@ gulp.task('scripts-dist', ['clean-scripts-dist'], function() {
     .pipe(jshint())
     .pipe(jshint.reporter('default'))
     .pipe(jshint.reporter('fail'))
-    .pipe(concat('main.min.js'))
+    .pipe(concat(package.name + '.min.js'))
     .pipe(uglify())
     .pipe(gulp.dest('build/scripts'));
 });
@@ -131,9 +145,9 @@ gulp.task('scripts-server', function() {
 gulp.task('less-build', ['clean-less-build'], function() {
   gulp.src('client/less/*.less')
     .pipe(less())
-    .pipe(concat('main.css'))
+    .pipe(concat(package.name + '.css'))
     .pipe(gulp.dest('build/styles'))
-    .pipe(rename('main.min.css'))
+    .pipe(rename(package.name + '.min.css'))
     .pipe(minifyCSS({ removeEmpty: true }))
     .pipe(gulp.dest('build/styles'))
     .pipe(livereload(tinylr));
@@ -142,7 +156,7 @@ gulp.task('less-build', ['clean-less-build'], function() {
 gulp.task('less-dist', ['clean-less-dist'], function() {
   gulp.src('client/less/*.less')
     .pipe(less())
-    .pipe(concat('main.min.css'))
+    .pipe(concat(package.name + '.min.css'))
     .pipe(gulp.dest('dist/styles'));
 });
 

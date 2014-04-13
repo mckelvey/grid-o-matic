@@ -8,10 +8,11 @@
   "description": "Yet another less CSS framework, but one based on picas and odd numbers of columns.",
   "main": [
     "dist/grid-o-matic.min.css",
-    "dist/grid-o-matic.min.js",
+    "dist/grid-o-matic.min.js"
   ],
   "dependencies": {
-    "jquery": "http://code.jquery.com/jquery-1.11.0.min.js"
+    "jquery": "~1.11.0",
+    "underscore": "~1.6.0"
   },
   "keywords": [
     "css",

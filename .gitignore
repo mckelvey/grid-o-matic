@@ -11,8 +11,13 @@ pids
 logs
 results
 
+server/**/*.js
+
 npm-debug.log
 node_modules
 third-party
+
+build
+dist
 
 .DS_Store

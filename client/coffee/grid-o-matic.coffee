@@ -1,5 +1,7 @@
 
 'use strict'
+### jslint browser: true ###
+### global $, _ ###
 
 class GridOMatic
 
