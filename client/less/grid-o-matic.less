@@ -1,8 +1,15 @@
 
-
 /*  VARIABLES */
 
-@pica: 12;
+.define() {
+  @pica: 12;
+  @min-columns: 3;
+  @max-columns: 17;
+  @grid-image: '../images/grid.png';
+  @block-background-color: #eeeeee;
+}
+.define();
+
 @line: (@pica * 2);
 @font-size: (@pica * 4 / 3);
 @em: (@font-size * 1rem);
@@ -10,11 +17,6 @@
 @sub-grid: (@line * 1px);
 @multiplier: 3;
 @main-grid: (@sub-grid * @multiplier);
-@min-columns: 3;
-@max-columns: 17;
-
-@grid-image: '/images/grid.png';
-@block-background-color: #eeeeee;
 
 
 /*  TYPOGRAPHY */
