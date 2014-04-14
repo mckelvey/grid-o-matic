@@ -51,11 +51,11 @@ class GridOMatic
           self.snapToGrid($element, self.subGrid)
         if ratio isnt undefined and ratio isnt ''
           $element.addClass('contained') if $element.hasClass('not-contained') isnt true
-          factor = switch ratio
-            when 'golden', 'golden-vertical', 'golden vertical' then 1.618
-            when 'golden-horizontal', 'golden horizontal' then 0.618
-            when 'square' then 1
-            else null
+          switch ratio
+            when 'golden', 'golden-vertical', 'golden vertical' then factor = 1.618
+            when 'golden-horizontal', 'golden horizontal' then factor = 0.618
+            when 'square' then factor = 1
+            else factor = null
           if factor?
             self.removeStyles($element, ['height'])
             $element.height($element.outerWidth() * factor)

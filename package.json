@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "author": "David W. McKelvey <david@mckelveycreative.com>",
   "dependencies": {
-    "gulp": "~3.5.2",
+    "gulp": "~3.6.0",
     "gulp-clean": "~0.2.4",
     "gulp-flatten": "~0.0.2",
     "gulp-coffee": "~1.4.1",

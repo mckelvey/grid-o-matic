@@ -86,7 +86,8 @@ gulp.task('copy-to-build', function() {
 });
 
 gulp.task('copy-to-dist', function() {
-  gulp.src(['client/**/*.*', '!client/**/*.{coffee,less}'])
+  gulp.src(['client/**/*.*', '!client/**/*.{coffee,less,js,css}'])
+    .pipe(flatten())
     .pipe(gulp.dest('dist'));
 });
 
@@ -99,7 +100,7 @@ gulp.task('third-party-build', ['clean-third-party-build'], function() {
 gulp.task('third-party-dist', ['clean-third-party-dist'], function() {
   gulp.src('third-party/**/dist/*.min.js')
     .pipe(flatten())
-    .pipe(gulp.dest('dist/scripts'));
+    .pipe(gulp.dest('dist'));
 });
 
 gulp.task('scripts-build', ['clean-scripts-build'], function() {
@@ -128,7 +129,7 @@ gulp.task('scripts-dist', ['clean-scripts-dist'], function() {
     .pipe(jshint.reporter('fail'))
     .pipe(concat(package.name + '.min.js'))
     .pipe(uglify())
-    .pipe(gulp.dest('build/scripts'));
+    .pipe(gulp.dest('dist'));
 });
 
 gulp.task('scripts-server', function() {
@@ -157,7 +158,7 @@ gulp.task('less-dist', ['clean-less-dist'], function() {
   gulp.src('client/less/*.less')
     .pipe(less())
     .pipe(concat(package.name + '.min.css'))
-    .pipe(gulp.dest('dist/styles'));
+    .pipe(gulp.dest('dist'));
 });
 
 gulp.task('templates-build', ['clean-templates-build'], function() {
@@ -210,9 +211,7 @@ gulp.task('server', [
 ]);
 
 gulp.task('dist', [
-  'scripts-server',
   'scripts-dist',
-  'templates-dist',
   'copy-to-dist',
   'less-dist'
 ]);
